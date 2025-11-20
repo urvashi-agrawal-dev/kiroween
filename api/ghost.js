@@ -226,11 +226,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { method, url } = req;
+    const { method, url, body } = req;
     const path = url.split('?')[0];
-    
-    // Parse body for POST requests (Vercel provides req.body automatically)
-    const body = req.body || {};
 
     // GET /api/ghost/list
     if (method === 'GET' && path.endsWith('/list')) {
