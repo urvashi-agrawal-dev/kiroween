@@ -214,6 +214,21 @@ const personas = {
   fortran: new FORTRANOracle()
 };
 
+// Helper to parse request body
+async function parseBody(req) {
+  return new Promise((resolve) => {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(body));
+      } catch (e) {
+        resolve({});
+      }
+    });
+  });
+}
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -226,8 +241,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { method, url, body } = req;
+    const { method, url } = req;
     const path = url.split('?')[0];
+    
+    // Parse body for POST requests
+    const body = method === 'POST' ? await parseBody(req) : {};
 
     // GET /api/ghost/list
     if (method === 'GET' && path.endsWith('/list')) {
