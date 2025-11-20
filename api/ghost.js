@@ -229,18 +229,29 @@ export default async function handler(req, res) {
     const { method, url } = req;
     const path = url.split('?')[0];
     
-    // Vercel automatically parses JSON body - just access it directly
-    // But we need to handle the case where it's not parsed yet
+    // Parse body safely - Vercel's body getter can throw errors
     let body = {};
     if (method === 'POST') {
-      if (typeof req.body === 'string') {
+      try {
+        // Try to access req.body - it's a getter that parses JSON
+        const rawBody = req.body;
+        if (typeof rawBody === 'string') {
+          body = JSON.parse(rawBody);
+        } else if (rawBody && typeof rawBody === 'object') {
+          body = rawBody;
+        }
+      } catch (bodyError) {
+        // If body parsing fails, try reading from stream
+        const chunks = [];
+        for await (const chunk of req) {
+          chunks.push(chunk);
+        }
+        const rawBody = Buffer.concat(chunks).toString();
         try {
-          body = JSON.parse(req.body);
+          body = JSON.parse(rawBody);
         } catch (e) {
           body = {};
         }
-      } else if (req.body && typeof req.body === 'object') {
-        body = req.body;
       }
     }
 
