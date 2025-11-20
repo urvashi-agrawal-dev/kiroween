@@ -1,0 +1,12 @@
+{
+  "name": "Persona Test Generator",
+  "description": "Automatically generates consistency tests when persona files are modified",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "backend/src/personas/*.js"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "A persona file was just modified. Please generate or update the corresponding test in tests/personas.test.js to verify:\n1. Response formatting matches the persona's historical style\n2. Tone consistency with the persona's personality\n3. Era-specific constraints are enforced\n4. Error handling follows the persona's conventions\n\nUse the persona-consistency.md steering rules as reference."
+  }
+}

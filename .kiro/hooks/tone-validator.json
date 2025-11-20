@@ -1,0 +1,12 @@
+{
+  "name": "Tone Validator",
+  "description": "Validates that persona responses maintain historical accuracy and consistent tone",
+  "trigger": {
+    "type": "manual",
+    "buttonLabel": "🎃 Validate Ghost Tone"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "Please validate all persona implementations against the persona-consistency.md steering rules:\n\n1. Check DOS Phantom uses ALL CAPS for commands and C:\\> prompt\n2. Check UNIX Necromancer uses lowercase and $ prompt with terse responses\n3. Check BASIC Poltergeist uses line numbers (10, 20, 30...) and PRINT statements\n4. Check FORTRAN Oracle uses ALL CAPS and column-based formatting\n\nReport any deviations from historical accuracy and suggest corrections."
+  }
+}

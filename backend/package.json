@@ -1,0 +1,25 @@
+{
+  "name": "retroghost-backend",
+  "version": "1.0.0",
+  "description": "Backend API for RetroGhost - Haunted Terminal of Forgotten Systems",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": ["retro", "computing", "ghost", "terminal", "kiroween"],
+  "author": "RetroGhost Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.3"
+  }
+}

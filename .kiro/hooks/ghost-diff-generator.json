@@ -1,0 +1,12 @@
+{
+  "name": "Ghost Diff Generator",
+  "description": "Generates Time Rift comparisons showing retro vs modern solutions",
+  "trigger": {
+    "type": "manual",
+    "buttonLabel": "⏰ Generate Time Rift Example"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "Generate a new Time Rift comparison example for the backend/src/utils/timerift.js module. Create a side-by-side comparison showing:\n\n1. How a selected ghost would solve a problem using era-specific constraints\n2. How the same problem would be solved with modern best practices\n3. Educational commentary highlighting the evolution\n\nEnsure the retro solution strictly follows the persona's formatting and limitations from persona-consistency.md."
+  }
+}
