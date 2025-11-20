@@ -214,21 +214,6 @@ const personas = {
   fortran: new FORTRANOracle()
 };
 
-// Helper to parse request body
-async function parseBody(req) {
-  return new Promise((resolve) => {
-    let body = '';
-    req.on('data', chunk => body += chunk.toString());
-    req.on('end', () => {
-      try {
-        resolve(JSON.parse(body));
-      } catch (e) {
-        resolve({});
-      }
-    });
-  });
-}
-
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -244,8 +229,20 @@ export default async function handler(req, res) {
     const { method, url } = req;
     const path = url.split('?')[0];
     
-    // Parse body for POST requests
-    const body = method === 'POST' ? await parseBody(req) : {};
+    // Vercel automatically parses JSON body - just access it directly
+    // But we need to handle the case where it's not parsed yet
+    let body = {};
+    if (method === 'POST') {
+      if (typeof req.body === 'string') {
+        try {
+          body = JSON.parse(req.body);
+        } catch (e) {
+          body = {};
+        }
+      } else if (req.body && typeof req.body === 'object') {
+        body = req.body;
+      }
+    }
 
     // GET /api/ghost/list
     if (method === 'GET' && path.endsWith('/list')) {
