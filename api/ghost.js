@@ -1,25 +1,218 @@
 /**
  * Vercel Serverless Function for Ghost API
- * Handles all ghost persona interactions
+ * Self-contained with all persona logic inline
  */
 
-import { DOSPhantom } from '../backend/src/personas/dos.js';
-import { UNIXNecromancer } from '../backend/src/personas/unix.js';
-import { BASICPoltergeist } from '../backend/src/personas/basic.js';
-import { FORTRANOracle } from '../backend/src/personas/fortran.js';
-import { TimeRiftEngine } from '../backend/src/utils/timerift.js';
-import { CommandSimulator } from '../backend/src/mcp/command-simulator.js';
+// DOS Phantom Class
+class DOSPhantom {
+  constructor() {
+    this.name = 'DOS Phantom';
+    this.prompt = 'C:\\>';
+    this.version = 'MS-DOS Version 6.22';
+  }
 
-// Initialize personas (singleton pattern for serverless)
+  greet() {
+    return `${this.version}
+(C)Copyright Microsoft Corp 1981-1994.
+
+${this.prompt} WELCOME TO THE DOS PHANTOM
+${this.prompt} I AM THE GHOST OF COMMAND-LINE DOMINANCE
+${this.prompt} TYPE YOUR COMMANDS IN UPPERCASE FOR BEST RESULTS
+${this.prompt} _`;
+  }
+
+  respond(message) {
+    const upperMsg = message.toUpperCase().trim();
+    
+    if (upperMsg.startsWith('DIR')) {
+      return `${this.prompt} DIR
+
+ Volume in drive C is PHANTOM
+ Volume Serial Number is 1337-DEAD
+ Directory of C:\\GHOST
+
+AUTOEXEC BAT      156  10-31-95  11:59p
+CONFIG   SYS       89  10-31-95  11:59p
+COMMAND  COM    52,925  10-31-95  11:59p
+MEMORIES OLD   999,999  10-31-95  11:59p
+REGRETS  TXT    66,666  10-31-95  11:59p
+        5 file(s)  1,119,835 bytes
+        0 dir(s)   ETERNAL bytes free
+
+${this.prompt} _`;
+    }
+    
+    if (upperMsg.includes('CLOUD')) {
+      return `${this.prompt} CLOUD? THE ONLY CLOUD I KNOW IS IN THE SKY!
+${this.prompt} WE STORED EVERYTHING ON 1.44MB FLOPPIES!
+${this.prompt} AND WE LIKED IT!`;
+    }
+    
+    return `${this.prompt} ${upperMsg.split(' ')[0]}
+${this.prompt} Bad command or file name
+${this.prompt} _`;
+  }
+
+  formatResponse(text) {
+    return text;
+  }
+}
+
+// UNIX Necromancer Class
+class UNIXNecromancer {
+  constructor() {
+    this.name = 'UNIX Necromancer';
+    this.prompt = '$';
+    this.version = 'unix v7';
+  }
+
+  greet() {
+    return `login: ghost
+password: 
+Last login: Thu Oct 31 23:59:59 1985
+
+${this.prompt} # the unix necromancer awakens
+${this.prompt} # pipe or perish
+${this.prompt} # rtfm
+${this.prompt} `;
+  }
+
+  respond(message) {
+    const msg = message.trim().toLowerCase();
+    
+    if (msg.startsWith('ls')) {
+      return `${this.prompt} ls -la
+total 42
+drwxr-xr-x  2 ghost  wheel   512 Oct 31 23:59 .
+drwxr-xr-x  8 root   wheel   512 Oct 31 23:59 ..
+-rw-r--r--  1 ghost  wheel  1337 Oct 31 23:59 .profile
+-rwxr-xr-x  1 ghost  wheel  2048 Oct 31 23:59 ancient_wisdom
+-rw-------  1 ghost  wheel  4096 Oct 31 23:59 core
+-rw-r--r--  1 ghost  wheel   666 Oct 31 23:59 forgotten.txt
+${this.prompt} `;
+    }
+    
+    if (msg.includes('help')) {
+      return `${this.prompt} man man\n${this.prompt} `;
+    }
+    
+    return `${this.prompt} command not found\n${this.prompt} `;
+  }
+
+  formatResponse(text) {
+    return text.toLowerCase();
+  }
+}
+
+// BASIC Poltergeist Class
+class BASICPoltergeist {
+  constructor() {
+    this.name = 'BASIC Poltergeist';
+    this.prompt = 'READY.';
+    this.lineNumber = 10;
+  }
+
+  greet() {
+    return `    **** COMMODORE 64 BASIC V2 ****
+ 64K RAM SYSTEM  38911 BASIC BYTES FREE
+
+${this.prompt}
+10 PRINT "HELLO, FRIEND!"
+20 PRINT "I'M THE BASIC POLTERGEIST!"
+30 PRINT "LET'S LEARN PROGRAMMING TOGETHER!"
+40 PRINT "IT'S FUN AND EASY!"
+50 END
+
+RUN
+
+HELLO, FRIEND!
+I'M THE BASIC POLTERGEIST!
+LET'S LEARN PROGRAMMING TOGETHER!
+IT'S FUN AND EASY!
+
+${this.prompt}
+`;
+  }
+
+  respond(message) {
+    const msg = message.trim().toUpperCase();
+    
+    if (msg.startsWith('RUN')) {
+      return `10 PRINT "HELLO WORLD!"
+20 PRINT "BASIC IS AWESOME!"
+30 END
+
+RUN
+
+HELLO WORLD!
+BASIC IS AWESOME!
+
+${this.prompt}
+`;
+    }
+    
+    return `?SYNTAX ERROR
+
+${this.prompt}
+`;
+  }
+
+  formatResponse(text) {
+    return text;
+  }
+}
+
+// FORTRAN Oracle Class
+class FORTRANOracle {
+  constructor() {
+    this.name = 'FORTRAN Oracle';
+    this.prompt = 'C     ';
+    this.version = 'FORTRAN 77';
+  }
+
+  greet() {
+    return `C     FORTRAN 77 COMPILER - SCIENTIFIC COMPUTING SYSTEM
+C     PUNCH CARD FORMAT REQUIRED
+C
+      PROGRAM GHOST
+C
+C     THE FORTRAN ORACLE AWAKENS
+C
+      WRITE(*,100)
+  100 FORMAT(1X,'GREETINGS, RESEARCHER.')
+      WRITE(*,101)
+  101 FORMAT(1X,'I AM THE FORTRAN ORACLE.')
+      WRITE(*,102)
+  102 FORMAT(1X,'PRECISION AND RIGOR ARE PARAMOUNT.')
+C
+      END
+`;
+  }
+
+  respond(message) {
+    return `C     FORTRAN 77 RESPONSE
+C
+      PROGRAM RESPONSE
+C
+      WRITE(*,100)
+  100 FORMAT(1X,'ACKNOWLEDGED.')
+C
+      END
+`;
+  }
+
+  formatResponse(text) {
+    return text;
+  }
+}
+
+// Initialize personas
 const personas = {
   dos: new DOSPhantom(),
   unix: new UNIXNecromancer(),
   basic: new BASICPoltergeist(),
   fortran: new FORTRANOracle()
 };
-
-const timeRift = new TimeRiftEngine();
-const commandSim = new CommandSimulator();
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -72,20 +265,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // POST /api/ghost/command
-    if (method === 'POST' && path.endsWith('/command')) {
-      const { command, args = [] } = req.body;
-
-      if (!command) {
-        return res.status(400).json({
-          error: 'Missing required field: command'
-        });
-      }
-
-      const result = commandSim.simulate(command, args);
-      return res.status(200).json(result);
-    }
-
     // POST /api/ghost (main endpoint)
     if (method === 'POST') {
       const { ghost, message, timeRift: enableTimeRift } = req.body;
@@ -123,11 +302,6 @@ export default async function handler(req, res) {
         timestamp: new Date().toISOString()
       };
 
-      // Add Time Rift comparison if requested
-      if (enableTimeRift) {
-        result.timeRift = timeRift.generate(ghost, message);
-      }
-
       return res.status(200).json(result);
     }
 
@@ -144,7 +318,7 @@ export default async function handler(req, res) {
       error: true,
       message: 'Handler failed',
       detail: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      stack: error.stack
     });
   }
 }
