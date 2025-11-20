@@ -291,7 +291,7 @@ export default async function handler(req, res) {
       if (!ghost || !message) {
         return res.status(400).json({
           error: 'Missing required fields: ghost and message',
-          debug: { ghost, message, body: req.body }
+          debug: { ghost, message, receivedBody: body }
         });
       }
 
