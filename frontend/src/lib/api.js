@@ -3,7 +3,7 @@
  */
 
 const API_BASE = import.meta.env.VITE_API_URL || 
-                 (import.meta.env.PROD ? '/api' : 'http://localhost:3001');
+                 (import.meta.env.PROD ? '' : 'http://localhost:3001');
 
 export async function fetchGhostList() {
   const response = await fetch(`${API_BASE}/api/ghost/list`);
