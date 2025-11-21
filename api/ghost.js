@@ -21,6 +21,14 @@ ${this.prompt} _`;
   respond(message) {
     const upperMsg = message.toUpperCase().trim();
     
+    // Detect greetings
+    if (upperMsg.match(/^(HEY|HI|HELLO|YO|SUP|HOWDY|GREETINGS|HOMIE|BRO|DUDE|FRIEND|WASSUP)/)) {
+      return `${this.prompt} GREETINGS, USER!
+${this.prompt} WELCOME TO THE DOS PHANTOM!
+${this.prompt} TYPE HELP FOR AVAILABLE COMMANDS!
+${this.prompt} _`;
+    }
+    
     if (upperMsg.startsWith('DIR')) return this.handleDir();
     if (upperMsg.startsWith('HELP')) return this.handleHelp();
     if (upperMsg.startsWith('CD ') || upperMsg === 'CD') return this.handleCd(upperMsg);
@@ -173,6 +181,14 @@ ${this.prompt}`;
 
   respond(message) {
     const msg = message.trim().toLowerCase();
+    
+    // Detect greetings
+    if (msg.match(/^(hey|hi|hello|yo|sup|howdy|greetings|homie|bro|dude|friend|wassup)/)) {
+      return `${this.prompt}greetings.
+${this.prompt}you have entered the realm of unix.
+${this.prompt}prepare yourself.
+${this.prompt}`;
+    }
     
     if (msg.startsWith('ls')) return this.handleLs();
     if (msg.startsWith('man ')) return this.handleMan(msg);
@@ -333,6 +349,18 @@ ${this.prompt}
   respond(message) {
     const msg = message.trim().toUpperCase();
     
+    // Detect greetings
+    if (msg.match(/^(HEY|HI|HELLO|YO|SUP|HOWDY|GREETINGS|HOMIE|BRO|DUDE|FRIEND)/)) {
+      return `${this.prompt}
+10 PRINT "HEY THERE, FRIEND!"
+20 PRINT "READY TO LEARN SOME BASIC?"
+30 PRINT "IT'S GOING TO BE FUN!"
+40 END
+
+${this.prompt}
+`;
+    }
+    
     if (msg.startsWith('RUN')) return this.handleRun();
     if (msg.startsWith('LIST')) return this.handleList();
     if (msg.startsWith('PRINT ')) return this.handlePrint(msg);
@@ -461,11 +489,35 @@ ${this.prompt}
 `;
     }
     
-    return `?SYNTAX ERROR
-TRY: RUN, LIST, PRINT, OR ASK ME ABOUT PROGRAMMING!
+    // Random friendly response for unrecognized input
+    const friendlyResponses = [
+      `${this.prompt}
+10 PRINT "INTERESTING!"
+20 PRINT "I'M NOT SURE ABOUT THAT..."
+30 PRINT "BUT LET'S TALK ABOUT PROGRAMMING!"
+40 END
 
 ${this.prompt}
-`;
+`,
+      `${this.prompt}
+10 PRINT "HMM, I DON'T QUITE UNDERSTAND!"
+20 PRINT "TRY ASKING ABOUT:"
+30 PRINT "LOOPS, GAMES, OR PROGRAMMING!"
+40 END
+
+${this.prompt}
+`,
+      `${this.prompt}
+10 PRINT "THAT'S A NEW ONE!"
+20 PRINT "I'M BEST AT TEACHING BASIC!"
+30 PRINT "WANT TO LEARN SOMETHING?"
+40 END
+
+${this.prompt}
+`
+    ];
+    
+    return friendlyResponses[Math.floor(Math.random() * friendlyResponses.length)];
   }
 
   handleRun() {
@@ -536,6 +588,21 @@ C
 
   respond(message) {
     const msg = message.trim().toUpperCase();
+    
+    // Detect greetings
+    if (msg.match(/^(HEY|HI|HELLO|YO|SUP|HOWDY|GREETINGS|HOMIE|BRO|DUDE|FRIEND|WASSUP)/)) {
+      return `C     SALUTATIONS ACKNOWLEDGED.
+C
+      PROGRAM GREETING
+C
+      WRITE(*,100)
+  100 FORMAT(1X,'GREETINGS, RESEARCHER.')
+      WRITE(*,101)
+  101 FORMAT(1X,'STATE YOUR COMPUTATIONAL INQUIRY.')
+C
+      END
+`;
+    }
     
     if (msg.includes('CALCULATE') || msg.includes('COMPUTE')) return this.handleCalculation();
     if (msg.includes('LOOP') || msg.includes('DO')) return this.handleDoLoop();
