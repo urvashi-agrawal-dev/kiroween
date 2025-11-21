@@ -1,10 +1,3 @@
-// Vercel serverless config
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
 // DOS Phantom
 class DOSPhantom {
   constructor() {
@@ -76,56 +69,66 @@ const personas = {
   fortran: new FORTRANOracle()
 };
 
-// Helper to parse body
-async function parseBody(req) {
-  if (req.body) return req.body;
-  
-  return new Promise((resolve) => {
-    let data = '';
-    req.on('data', chunk => { data += chunk; });
-    req.on('end', () => {
-      try {
-        resolve(JSON.parse(data));
-      } catch {
-        resolve({});
-      }
-    });
-  });
-}
-
 export default async function handler(req, res) {
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
+  // Only allow POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ 
+      error: true,
+      message: 'Method not allowed',
+      detail: `Expected POST, got ${req.method}`
+    });
   }
 
   try {
-    const body = await parseBody(req);
+    // Parse body - Vercel should handle this automatically
+    const body = req.body;
+    
+    if (!body) {
+      return res.status(400).json({ 
+        error: true,
+        message: 'No request body',
+        detail: 'Request body is empty or could not be parsed'
+      });
+    }
+
     const { ghost, message } = body;
 
+    // Validate required fields
     if (!ghost || !message) {
       return res.status(400).json({ 
-        error: 'Missing ghost or message',
+        error: true,
+        message: 'Missing required fields',
+        detail: `Received: ghost=${ghost}, message=${message}`,
         received: body 
       });
     }
 
+    // Validate ghost exists
     if (!personas[ghost]) {
-      return res.status(400).json({ error: 'Invalid ghost' });
+      return res.status(400).json({ 
+        error: true,
+        message: 'Invalid ghost',
+        detail: `Ghost "${ghost}" not found. Available: ${Object.keys(personas).join(', ')}`
+      });
     }
 
+    // Get persona and generate response
     const persona = personas[ghost];
     const response = (message.toLowerCase() === 'hello' || message.toLowerCase() === 'hi') 
       ? persona.greet() 
       : persona.respond(message);
 
+    // Return success
     return res.status(200).json({
       ghost,
       response,
@@ -134,10 +137,12 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
+    console.error('Ghost handler error:', error);
     return res.status(500).json({
       error: true,
-      message: error.message,
-      stack: error.stack
+      message: 'Ghost summon failed',
+      detail: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 }

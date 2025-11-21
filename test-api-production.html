@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RetroGhost API Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #000; color: #0f0; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #0f0; }
+        .success { background: #002200; }
+        .error { background: #220000; color: #f00; }
+        button { background: #0f0; color: #000; padding: 10px; margin: 5px; cursor: pointer; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🎃 RetroGhost API Production Test</h1>
+    <button onclick="testAll()">Run All Tests</button>
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = '';  // Empty for production (same domain)
+        
+        async function testGhostList() {
+            const result = document.createElement('div');
+            result.className = 'test';
+            result.innerHTML = '<h3>Test 1: Fetch Ghost List</h3>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/ghost/list`);
+                const data = await response.json();
+                
+                if (response.ok && data.ghosts && data.ghosts.length > 0) {
+                    result.className += ' success';
+                    result.innerHTML += `<p>✓ SUCCESS: Found ${data.ghosts.length} ghosts</p>`;
+                    result.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    throw new Error('Invalid response');
+                }
+            } catch (error) {
+                result.className += ' error';
+                result.innerHTML += `<p>✗ FAILED: ${error.message}</p>`;
+            }
+            
+            return result;
+        }
+        
+        async function testGhostSummon(ghostId) {
+            const result = document.createElement('div');
+            result.className = 'test';
+            result.innerHTML = `<h3>Test 2: Summon ${ghostId} Ghost</h3>`;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/ghost`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ghost: ghostId, message: 'hello' })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.response) {
+                    result.className += ' success';
+                    result.innerHTML += `<p>✓ SUCCESS: Ghost responded</p>`;
+                    result.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    throw new Error(data.message || data.error || 'No response');
+                }
+            } catch (error) {
+                result.className += ' error';
+                result.innerHTML += `<p>✗ FAILED: ${error.message}</p>`;
+            }
+            
+            return result;
+        }
+        
+        async function testAll() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Running tests...</p>';
+            
+            const results = [];
+            results.push(await testGhostList());
+            results.push(await testGhostSummon('dos'));
+            results.push(await testGhostSummon('unix'));
+            results.push(await testGhostSummon('basic'));
+            results.push(await testGhostSummon('fortran'));
+            
+            resultsDiv.innerHTML = '';
+            results.forEach(r => resultsDiv.appendChild(r));
+        }
+    </script>
+</body>
+</html>
