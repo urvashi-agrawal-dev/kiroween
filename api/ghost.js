@@ -76,6 +76,23 @@ const personas = {
   fortran: new FORTRANOracle()
 };
 
+// Helper to parse body
+async function parseBody(req) {
+  if (req.body) return req.body;
+  
+  return new Promise((resolve) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(data));
+      } catch {
+        resolve({});
+      }
+    });
+  });
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -90,10 +107,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { ghost, message } = req.body || {};
+    const body = await parseBody(req);
+    const { ghost, message } = body;
 
     if (!ghost || !message) {
-      return res.status(400).json({ error: 'Missing ghost or message' });
+      return res.status(400).json({ 
+        error: 'Missing ghost or message',
+        received: body 
+      });
     }
 
     if (!personas[ghost]) {
