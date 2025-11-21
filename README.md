@@ -6,10 +6,6 @@
 
 🎃 **Kiroween 2025 - Resurrection Category**
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success?style=for-the-badge)](https://kiroween.vercel.app) [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE) [![Kiroween](https://img.shields.io/badge/Kiroween-2025-orange?style=for-the-badge)](https://kiroween.dev)
-
-![RetroGhost Demo](https://via.placeholder.com/800x400/000000/00FF00?text=RetroGhost+Terminal)
-
 ---
 
 ## 🌟 What is RetroGhost?
@@ -193,8 +189,6 @@ Command Simulator
 ## 📚 Documentation
 
 - **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical deep dive
-- **[DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)** - 3-minute walkthrough
-- **[DEVPOST_SUBMISSION.md](docs/DEVPOST_SUBMISSION.md)** - Competition entry
 - **[COMMAND_GUIDE.md](COMMAND_GUIDE.md)** - All available commands
 - **[ASK_ANYTHING.md](ASK_ANYTHING.md)** - Conversational AI guide
 
@@ -281,7 +275,6 @@ MIT License - See [LICENSE](LICENSE) file
 ### Competition Links
 - **Demo**: [kiroween.vercel.app](https://kiroween.vercel.app)
 - **GitHub**: [github.com/urvashi-agrawal-dev/kiroween](https://github.com/urvashi-agrawal-dev/kiroween)
-- **Devpost**: [Coming soon]
 
 ---
 
@@ -298,13 +291,7 @@ MIT License - See [LICENSE](LICENSE) file
 
 - **GitHub**: [@urvashi-agrawal-dev](https://github.com/urvashi-agrawal-dev)
 - **Demo**: [kiroween.vercel.app](https://kiroween.vercel.app)
-- **Email**: [Your email]
 
----
-
-## 🎬 Demo Video
-
-[Coming soon - 3-minute walkthrough]
 
 ---
 
