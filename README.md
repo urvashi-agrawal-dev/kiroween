@@ -272,7 +272,7 @@ MIT License - See [LICENSE](LICENSE) file
 **Theme**: Bringing dead systems back to life  
 **Innovation**: First-ever interactive ghost terminal
 
-### Competition Links
+### Links
 - **Demo**: [kiroween.vercel.app](https://kiroween.vercel.app)
 - **GitHub**: [github.com/urvashi-agrawal-dev/kiroween](https://github.com/urvashi-agrawal-dev/kiroween)
 
@@ -287,13 +287,6 @@ MIT License - See [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Contact
-
-- **GitHub**: [@urvashi-agrawal-dev](https://github.com/urvashi-agrawal-dev)
-- **Demo**: [kiroween.vercel.app](https://kiroween.vercel.app)
-
-
----
 
 **Made with 👻 for Kiroween 2025**
 
